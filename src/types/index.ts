@@ -36,12 +36,14 @@ export interface ChatMessage {
 // Match history type
 export interface MatchHistory {
   id: string
-  date: string
-  opponent: string
+  date: Date
+  duration: string
   result: 'win' | 'loss' | 'draw'
   score: {
     user: number
     opponent: number
   }
+  opponent: string
+  yourScore: number
   highlights?: string[]
 }
