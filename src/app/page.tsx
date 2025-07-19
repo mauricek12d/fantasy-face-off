@@ -14,12 +14,15 @@ import {
   MessageCircle,
   BarChart3,
 } from "lucide-react"
+import { BattleTab } from "@/components/BattleTab"
 
 export default function Home() {
   const activeTab = useMatchStore((state) => state.activeTab)
   const setActiveTab = useMatchStore((state) => state.setActiveTab)
   const soundEnabled = useMatchStore((state) => state.soundEnabled)
   const setSoundEnabled = useMatchStore((state) => state.setSoundEnabled)
+  const isLive = useMatchStore((state) => state.isLive)
+  const setIsLive = useMatchStore((state) => state.setIsLive)
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black relative overflow-hidden text-white">
@@ -97,7 +100,7 @@ export default function Home() {
           {/* Tab Content Areas */}
           <TabsContent value="battle">
             <div className="p-4 border border-gray-700 rounded-lg bg-black bg-opacity-50">
-              Battle tab content goes here...
+              <BattleTab />
             </div>
           </TabsContent>
 
@@ -125,6 +128,19 @@ export default function Home() {
             </div>
           </TabsContent>
         </Tabs>
+
+        {/* 🎮 Start/End Match Button */}
+        <div className="text-center mt-6">
+          <Button
+            onClick={() => setIsLive(!isLive)}
+            variant="default"
+            className={`text-white font-bold px-6 py-2 ${
+              isLive ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"
+            }`}
+          >
+            {isLive ? "End Match" : "Start Match"}
+          </Button>
+        </div>
       </main>
     </div>
   )

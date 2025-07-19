@@ -13,9 +13,9 @@ interface MatchState {
   chatMessages: ChatMessage[]
 
   setActiveTab: (tab: string) => void
-  setMatchTime: (time: number) => void
-  setYourScore: (score: number) => void
-  setOpponentScore: (score: number) => void
+  setMatchTime: (time: number | ((prev: number) => number)) => void
+  setYourScore: (score: number | ((prev: number) => number)) => void
+  setOpponentScore: (score: number | ((prev: number) => number)) => void
   setIsLive: (live: boolean) => void
   setSelectedPlayer: (player: Player | null) => void
   setSoundEnabled: (enabled: boolean) => void
@@ -35,9 +35,22 @@ export const useMatchStore = create<MatchState>((set) => ({
   chatMessages: [],
 
   setActiveTab: (tab) => set({ activeTab: tab }),
-  setMatchTime: (time) => set({ matchTime: time }),
-  setYourScore: (score) => set({ yourScore: score }),
-  setOpponentScore: (score) => set({ opponentScore: score }),
+
+  setMatchTime: (time) =>
+    set((state) => ({
+      matchTime: typeof time === "function" ? time(state.matchTime) : time,
+    })),
+
+  setYourScore: (score) =>
+    set((state) => ({
+      yourScore: typeof score === "function" ? score(state.yourScore) : score,
+    })),
+
+  setOpponentScore: (score) =>
+    set((state) => ({
+      opponentScore: typeof score === "function" ? score(state.opponentScore) : score,
+    })),
+
   setIsLive: (live) => set({ isLive: live }),
   setSelectedPlayer: (player) => set({ selectedPlayer: player }),
   setSoundEnabled: (enabled) => set({ soundEnabled: enabled }),
