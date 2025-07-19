@@ -1,103 +1,131 @@
-import Image from "next/image";
+'use client'
+
+import { useMatchStore } from "@/store/matchStore"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import {
+  Volume2,
+  VolumeX,
+  Zap,
+  Target,
+  History,
+  MessageCircle,
+  BarChart3,
+} from "lucide-react"
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const activeTab = useMatchStore((state) => state.activeTab)
+  const setActiveTab = useMatchStore((state) => state.setActiveTab)
+  const soundEnabled = useMatchStore((state) => state.soundEnabled)
+  const setSoundEnabled = useMatchStore((state) => state.setSoundEnabled)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black relative overflow-hidden text-white">
+      {/* 🌟 Background Effects */}
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-32 h-32 bg-yellow-400/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-0 right-1/4 w-32 h-32 bg-yellow-400/10 rounded-full blur-3xl animate-pulse" />
+      </div>
+
+      {/* 🧭 Navigation Bar */}
+      <Card className="bg-gradient-to-r from-gray-900/95 to-gray-800/95 border-2 border-purple-500/30 mb-6 backdrop-blur-sm">
+        <div className="p-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+              FANTASY FACE-OFF ARENA
+            </h1>
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSoundEnabled(!soundEnabled)}
+                className="text-gray-400 hover:text-white"
+              >
+                {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+              </Button>
+              <Badge variant="outline" className="border-green-400 text-green-400">
+                Online
+              </Badge>
+            </div>
+          </div>
         </div>
+      </Card>
+
+      {/* 🗂️ Main Content */}
+      <main className="relative z-10 p-4 max-w-6xl mx-auto">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5 bg-gray-900/50 border border-gray-700">
+            <TabsTrigger
+              value="battle"
+              className="data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-400"
+            >
+              <Zap className="w-4 h-4 mr-2" />
+              Battle
+            </TabsTrigger>
+            <TabsTrigger
+              value="formation"
+              className="data-[state=active]:bg-green-500/20 data-[state=active]:text-green-400"
+            >
+              <Target className="w-4 h-4 mr-2" />
+              Formation
+            </TabsTrigger>
+            <TabsTrigger
+              value="history"
+              className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400"
+            >
+              <History className="w-4 h-4 mr-2" />
+              History
+            </TabsTrigger>
+            <TabsTrigger
+              value="chat"
+              className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-400"
+            >
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Chat
+            </TabsTrigger>
+            <TabsTrigger
+              value="stats"
+              className="data-[state=active]:bg-orange-500/20 data-[state=active]:text-orange-400"
+            >
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Stats
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Tab Content Areas */}
+          <TabsContent value="battle">
+            <div className="p-4 border border-gray-700 rounded-lg bg-black bg-opacity-50">
+              Battle tab content goes here...
+            </div>
+          </TabsContent>
+
+          <TabsContent value="formation">
+            <div className="p-4 border border-gray-700 rounded-lg bg-black bg-opacity-50">
+              Formation view goes here...
+            </div>
+          </TabsContent>
+
+          <TabsContent value="history">
+            <div className="p-4 border border-gray-700 rounded-lg bg-black bg-opacity-50">
+              Match history content goes here...
+            </div>
+          </TabsContent>
+
+          <TabsContent value="chat">
+            <div className="p-4 border border-gray-700 rounded-lg bg-black bg-opacity-50">
+              Chat interface goes here...
+            </div>
+          </TabsContent>
+
+          <TabsContent value="stats">
+            <div className="p-4 border border-gray-700 rounded-lg bg-black bg-opacity-50">
+              Stats dashboard goes here...
+            </div>
+          </TabsContent>
+        </Tabs>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
-  );
+  )
 }
