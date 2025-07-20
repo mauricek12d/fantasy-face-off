@@ -70,15 +70,25 @@ export const BattleTab = () => {
         </div>
       </Card>
 
-      {/* 🧑‍🤝‍🧑 Player Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {yourTeam.map((player: Player) => (
-          <PlayerCard key={player.id} player={player} />
-        ))}
-        {opponentTeam.map((player: Player) => (
-          <PlayerCard key={player.id} player={player} isOpponent />
-        ))}
-      </div>
+      {/* 🧑‍🤝‍🧑 Side-by-side Player Columns */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {/* Your Team - Left */}
+  <div className="space-y-4">
+    <h2 className="text-center text-cyan-400 font-bold text-lg">Your Team</h2>
+    {yourTeam.map((player: Player) => (
+      <PlayerCard key={player.id} player={player} />
+    ))}
+  </div>
+
+  {/* Opponent Team - Right */}
+  <div className="space-y-4">
+    <h2 className="text-center text-red-400 font-bold text-lg">Opponent</h2>
+    {opponentTeam.map((player: Player) => (
+      <PlayerCard key={player.id} player={player} isOpponent />
+    ))}
+  </div>
+</div>
+
     </div>
   )
 }

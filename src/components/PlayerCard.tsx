@@ -29,7 +29,7 @@ export const PlayerCard = ({
 
       <div className="p-4 text-center">
         <div className="text-3xl mb-2">{player.avatar}</div>
-        <div className="font-bold text-lg">{player.name}</div>
+        <div className="font-bold text-lg text-white">{player.name}</div>
         <div className="text-sm text-gray-400">
           {player.position} • {player.team}
         </div>
