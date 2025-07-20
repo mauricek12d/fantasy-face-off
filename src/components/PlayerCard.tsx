@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card"
 import type { Player } from "@/types"
+import { useMatchStore } from "@/store/matchStore"
 
 interface PlayerCardProps {
   player: Player
@@ -12,8 +13,11 @@ export const PlayerCard = ({
   isOpponent = false,
   showFormation = false,
 }: PlayerCardProps) => {
+  const setSelectedPlayer = useMatchStore((state) => state.setSelectedPlayer)
+
   return (
     <Card
+      onClick={() => setSelectedPlayer(player)} // ✅ Open modal
       className={`relative overflow-hidden bg-gradient-to-br from-gray-900/90 to-gray-800/90 border-2 transition-all duration-300 hover:scale-105 hover:shadow-2xl group cursor-pointer
         ${isOpponent ? "border-red-500/30 hover:border-red-400" : "border-cyan-500/30 hover:border-cyan-400"}`}
     >
